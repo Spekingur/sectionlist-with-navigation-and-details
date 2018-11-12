@@ -47,9 +47,9 @@ export default class Workscreen extends React.Component {
     const { workInfo } = this.props;
     const length = workInfo.department.length + workInfo.job_title.length;
     return (
-      <Animated.ScrollView
-        contentContainerStyle={styles.infoContainer}
+      <Animated.View
         style={[
+          styles.infoContainer,
           {
             marginRight: this.infoAnimation.interpolate({
               inputRange: [0, 1],
@@ -83,7 +83,7 @@ export default class Workscreen extends React.Component {
           </Text>
         </View>
         <View style={styles.textUnderline} />
-      </Animated.ScrollView>
+      </Animated.View>
     );
   }
 }
