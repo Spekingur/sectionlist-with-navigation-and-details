@@ -23,15 +23,16 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   avatarImg: {
-    height: 200,
-    width: 200,
+    height: 150,
+    width: 150,
     borderWidth: 1,
     borderColor: 'black',
-    borderRadius: 10,
+    borderRadius: 75,
   },
   imgStyle: {
     backgroundColor: '#fff',
-    borderRadius: 10,
+    borderRadius: 75,
+    marginBottom: 10,
   },
   nameSpace: {
     flexDirection: 'row',
@@ -41,6 +42,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   buttonContainer: {
+    marginTop: 10,
     marginBottom: 20,
   },
   buttonStyle: {
@@ -77,9 +79,9 @@ export default class DetailScreen extends React.Component {
 
         <View style={styles.nameSpace}>
           <Text style={styles.text}>
-            {name.firstname}
+            {name.first_name}
             {' '}
-            {name.lastname}
+            {name.last_name}
           </Text>
         </View>
 
