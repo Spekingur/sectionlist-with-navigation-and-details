@@ -11,7 +11,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import { Constants } from 'expo';
+// import { Constants } from 'expo';
 
 // import DetailScreen from './DetailScreen';
 
@@ -44,14 +44,22 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
-    backgroundColor: 'grey',
-    paddingLeft: 5,
+    backgroundColor: 'gainsboro',
+    paddingLeft: 10,
   },
   item: {
-    fontSize: 14,
-    paddingLeft: 5,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: 'silver',
+    marginBottom: 2,
+  },
+  itemText: {
+    fontSize: 20,
+    paddingLeft: 12,
+    marginTop: 1,
+    marginBottom: 1,
   },
 });
 
@@ -99,7 +107,7 @@ export default class MainScreen extends React.Component {
           )}
           renderItem={({ item, index }) => (
             <TouchableOpacity style={styles.item} key={index} onPress={() => this.onPress(item)}>
-              <Text>{item.name.first_name}</Text>
+              <Text style={styles.itemText}>{item.name.first_name}</Text>
             </TouchableOpacity>
           )}
           renderSectionHeader={({ section: { title } }) => (
