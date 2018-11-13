@@ -163,7 +163,7 @@ export default class MainScreen extends React.Component {
             onPress={() => this.setState({ firstNameSort: !firstNameSort })}
           >
             <Text style={styles.sortText}>
-              {firstNameSort ? 'Sort by last name' : 'Sort by first name'}
+              {firstNameSort ? 'Order by last name' : 'Order by first name'}
             </Text>
           </TouchableHighlight>
         </View>
