@@ -10,6 +10,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  TouchableHighlight,
 } from 'react-native';
 // import { Constants } from 'expo';
 
@@ -60,6 +61,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: 'silver',
     // marginBottom: 2,
+    flexDirection: 'row',
   },
   itemText: {
     fontSize: 20,
@@ -68,6 +70,26 @@ const styles = StyleSheet.create({
     // paddingBottom: 5,
     marginTop: 10,
     marginBottom: 10,
+  },
+  dotText: {
+    fontSize: 20,
+    paddingLeft: 15,
+    color: 'silver',
+    alignSelf: 'center',
+  },
+  sortButton: {
+    borderBottomWidth: 1,
+    borderBottomColor: 'dimgrey',
+    backgroundColor: 'grey',
+    alignItems: 'center',
+    paddingTop: 5,
+    paddingBottom: 5,
+  },
+  sortText: {
+    fontSize: 20,
+    justifyContent: 'center',
+    color: 'white',
+    // alignSelf: 'center',
   },
 });
 
@@ -86,10 +108,24 @@ const sortedDict = data
   }, []);
 
 // Finally structure the data in a way that sectionlist wants
-const sectArr = Object.keys(sortedDict).map(letterkey => ({
-  title: letterkey,
-  data: sortedDict[letterkey],
-}));
+// (updated: this is now done in a function)
+// const sectArr = Object.keys(sortedDict).map(letterkey => ({
+//  title: letterkey,
+//  data: sortedDict[letterkey],
+// }));
+
+// Sort by lastname
+const lastnameArr = data
+  .sort((a, b) => a.name.last_name.localeCompare(b.name.last_name))
+  .reduce((dict, obj) => {
+    const firstLetter = obj.name.last_name.charAt(0);
+    const dicted = dict;
+    if (!dicted[firstLetter]) {
+      dicted[firstLetter] = [];
+    }
+    dicted[firstLetter].push(obj);
+    return dicted;
+  }, []);
 
 export default class MainScreen extends React.Component {
   static navigationOptions = {
@@ -97,14 +133,40 @@ export default class MainScreen extends React.Component {
     headerTitleStyle: { flex: 1, textAlign: 'center', alignSelf: 'center' },
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstNameSort: true,
+    };
+  }
+
   onPress = (item) => {
     const { navigation } = this.props;
     navigation.navigate('Details', item);
   };
 
+  readyData = (dict) => {
+    const sectArr = Object.keys(dict).map(letterkey => ({
+      title: letterkey,
+      data: dict[letterkey],
+    }));
+    return sectArr;
+  };
+
   render() {
+    const { firstNameSort } = this.state;
     return (
       <View style={styles.container}>
+        <View>
+          <TouchableHighlight
+            style={styles.sortButton}
+            onPress={() => this.setState({ firstNameSort: !firstNameSort })}
+          >
+            <Text style={styles.sortText}>
+              {firstNameSort ? 'Sort by last name' : 'Sort by first name'}
+            </Text>
+          </TouchableHighlight>
+        </View>
         <SectionList
           style={styles.list}
           ListEmptyComponent={
@@ -115,17 +177,18 @@ export default class MainScreen extends React.Component {
           )}
           renderItem={({ item, index }) => (
             <TouchableOpacity style={styles.item} key={index} onPress={() => this.onPress(item)}>
+              <Text style={styles.dotText}>•</Text>
               <Text style={styles.itemText}>
-                {item.name.first_name}
-                {' '}
-                {item.name.last_name}
+                {firstNameSort
+                  ? `${item.name.first_name} ${item.name.last_name}`
+                  : `${item.name.last_name}, ${item.name.first_name}`}
               </Text>
             </TouchableOpacity>
           )}
           renderSectionHeader={({ section: { title } }) => (
             <Text style={styles.header}>{title}</Text>
           )}
-          sections={sectArr}
+          sections={firstNameSort ? this.readyData(sortedDict) : this.readyData(lastnameArr)}
           keyExtractor={(item, index) => item + index}
         />
       </View>
