@@ -48,18 +48,26 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     backgroundColor: 'gainsboro',
     paddingLeft: 10,
+    // marginBottom: 2,
+    paddingTop: 5,
+    paddingBottom: 5,
+    borderColor: 'silver',
+    // borderTopWidth: 2,
+    borderBottomWidth: 1,
   },
   item: {
-    borderTopWidth: 1,
+    // borderTopWidth: 1,
     borderBottomWidth: 1,
     borderColor: 'silver',
-    marginBottom: 2,
+    // marginBottom: 2,
   },
   itemText: {
     fontSize: 20,
-    paddingLeft: 12,
-    marginTop: 1,
-    marginBottom: 1,
+    paddingLeft: 30,
+    // paddingTop: 5,
+    // paddingBottom: 5,
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
 
@@ -107,7 +115,11 @@ export default class MainScreen extends React.Component {
           )}
           renderItem={({ item, index }) => (
             <TouchableOpacity style={styles.item} key={index} onPress={() => this.onPress(item)}>
-              <Text style={styles.itemText}>{item.name.first_name}</Text>
+              <Text style={styles.itemText}>
+                {item.name.first_name}
+                {' '}
+                {item.name.last_name}
+              </Text>
             </TouchableOpacity>
           )}
           renderSectionHeader={({ section: { title } }) => (
